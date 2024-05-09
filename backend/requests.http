@@ -1,0 +1,106 @@
+###user authentication
+POST http://localhost:4000/user-api/user
+Content-Type: application/json
+
+{
+    "usertype":"user",
+    "username":"ravi",
+    "password":"ravi",
+    "email":"ravi@gmail.com"
+}
+###user login
+POST http://localhost:4000/user-api/login
+Content-Type: application/json
+
+{
+    "usertype":"user",
+    "username":"ravi",
+    "password":"ravi"
+}
+###read articles
+GET http://localhost:4000/user-api/articles
+###
+GET http://localhost:4000/admin-api/test-admin
+###
+POST http://localhost:4000/author-api/author
+Content-Type: application/json
+
+{
+    "usertype":"author",
+    "authorname":"rahul",
+    "password":"rahul",
+    "email":"rahul1312@gmail.com"
+}
+###
+
+POST http://localhost:4000/author-api/login
+Content-Type: application/json
+
+{
+    "usertype":"author",
+    "authorname":"rahul",
+    "password":"rahul"
+}
+
+### for articles
+POST http://localhost:4000/author-api/articles
+Content-Type: application/json
+
+{
+    "articleId":"{{$timestamp}}",
+    "title":"Fundamentals of Java",
+    "category":"Programing",
+    "content":"JavaScript is a scripting language used to develop web pages. Developed in Netscape, JS allows developers to create a dynamic and interactive web page to interact with visitors and execute complex actions. It also enables users to load content into a document without reloading the entire page.",
+    "dateOfCreation":"{{$datetime iso8601}}",
+    "dateOfModification":"{{$datetime iso8601}}",
+    "username":"Anish Giri",
+    "comments":[],
+    "status":true
+}
+
+
+###
+PUT  http://localhost:4000/author-api/articles
+Content-Type: application/json
+
+{
+    "articleId":"1714144390",
+    "title":"Fundamentals of Java",
+    "category":"Programing",
+    "content":"JavaScript is a scripting language used to develop web pages. Developed in Netscape, JS allows developers to create a dynamic and interactive web page to interact with visitors and execute complex actions.",
+    "dateOfCreation":"2024-04-26T15:13:10.070Z",
+    "dateOfModification":"{{$datetime iso8601}}",
+    "username":"Anish Giri",
+    "comments":[],
+    "status":true
+}
+
+###delete article
+
+PUT http://localhost:4000/author-api/articles/1714144390
+Content-Type: application/json
+
+{
+    "articleId":"1714144390",
+    "title":"Fundamentals of Java",
+    "category":"Programing",
+    "content":"JavaScript is a scripting language used to develop web pages. Developed in Netscape, JS allows developers to create a dynamic and interactive web page to interact with visitors and execute complex actions.",
+    "dateOfCreation":"2024-04-26T15:13:10.070Z",
+    "dateOfModification":"{{$datetime iso8601}}",
+    "username":"Anish Giri",
+    "comments":[],
+    "status":true
+}
+
+###view articles
+GET http://localhost:4000/author-api/articles/AnishGiri
+
+###comments
+POST http://localhost:4000/user-api/comment
+Content-Type: application/json
+
+{
+    "articleId":"1714144390",
+    "username":"ravi",
+    "comments":"Amazing content"
+}

@@ -1,0 +1,17 @@
+.home-container {
+    text-align: center;
+    padding: 50px 20px;
+  }
+  
+  .blog-name {
+    font-size: 4em;
+    color:orange;
+    margin-bottom: 20px;
+  }
+  
+  .intro-text {
+    font-size: 1.2em;
+    color: #666;
+    line-height: 1.6;
+  }
+  
