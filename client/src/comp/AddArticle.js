@@ -1,12 +1,11 @@
 import { useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { axiosWithToken } from "../axiosWithToken";
 
 function AddArticle() {
     const { register, handleSubmit } = useForm();
-    let [err, setErr] = useState("");
+    //let [err, setErr] = useState("");
     let { currentUser } = useSelector(
         (state) => state.userAuthorLoginReducer
     );
@@ -28,7 +27,8 @@ function AddArticle() {
             navigate(`/author-profile/articles-by-author/${currentUser.username}`)
         }
         else{
-            setErr(res.data.message)
+            //setErr(res.data.message)
+            console.log(res.data.message)
         }
     }
 
