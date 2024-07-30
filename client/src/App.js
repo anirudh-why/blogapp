@@ -4,7 +4,7 @@ import RootLayout from './RootLayout';
 import Error from './comp/Error'
 import Signin from './comp/Signin';
 import Home from './comp/Home';
-import AuthorProfile from './comp/Authorprofile';
+import AuthorProfile from './comp/AuthorProfile';
 import UserProfile from './comp/UserProfile';
 import AddArticle from './comp/AddArticle';
 import ArticlesByAuthor from './comp/ArticlesByAuthor';
