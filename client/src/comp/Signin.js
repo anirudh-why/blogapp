@@ -123,7 +123,7 @@ function Signin() {
         
             <button type="submit" className="btn btn-success mt-3 mb-3">Login</button>
             <p>Don't have an account yet?
- <Link to="http://localhost:4000/signup"> Signup</Link>
+ <Link to="/signup"> Signup</Link>
 </p>
         </form>
     </div>

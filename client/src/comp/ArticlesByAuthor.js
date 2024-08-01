@@ -14,8 +14,8 @@ function ArticlesByAuthor() {
   );
 
   async function getArticlesOfCurrentAuthor(){
-    let res=await axiosWithToken.get(`http://localhost:4000/author-api/articles/${currentUser.username}`)
-    console.log(res.data.payload);
+    let res=await axiosWithToken.get(`${window.location.origin}/author-api/articles/${currentUser.username}`)
+    //console.log(res.data.payload);
     setArticlesList(res.data.payload);
   }
 
@@ -28,7 +28,7 @@ function ArticlesByAuthor() {
   },[])
 
   
-  console.log("The list:",articlesList);
+  //console.log("The list:",articlesList);
   
   return (
     <div className='container'>

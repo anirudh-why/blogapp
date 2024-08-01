@@ -11,9 +11,11 @@ import ArticlesByAuthor from './comp/ArticlesByAuthor';
 import Articles from './comp/Articles';
 import Article1 from './comp/Article1';
 import Signup1 from './comp/Signup1'
+import { useSelector } from 'react-redux';
 
 function App() {
 
+  let {currentUser}=useSelector(state=>state.userAuthorLoginReducer);
   let router=createBrowserRouter([
     {
       path:"",
@@ -72,7 +74,7 @@ function App() {
             },
             {
               path:"",
-              element:<Navigate to='articles-by-author/:username' />
+              element:<ArticlesByAuthor />
             }
           ]
         }

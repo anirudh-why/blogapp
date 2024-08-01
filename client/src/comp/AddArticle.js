@@ -18,17 +18,17 @@ function AddArticle() {
         article.username = currentUser.username;
         article.comments = [];
         article.status = true;
-        console.log(article);
+        //console.log(article);
         // You can perform additional actions here, such as sending the form data to a server
         //http post
-        let res=await axiosWithToken.post('http://localhost:4000/author-api/articles',article)
+        let res=await axiosWithToken.post(`${window.location.origin}/author-api/articles`,article)
         if(res.data.message==='New article created')
         {
             navigate(`/author-profile/articles-by-author/${currentUser.username}`)
         }
         else{
             //setErr(res.data.message)
-            console.log(res.data.message)
+            //console.log(res.data.message)
         }
     }
 

@@ -33,7 +33,7 @@ authorApp.post('/author',expressasynchandler(async(req,res)=>{
 
 authorApp.post('/login',expressasynchandler(async(req,res)=>{
     const authorCred=req.body;
-    console.log(authorCred);
+    //console.log(authorCred);
     const dbauthor= await authorsCollection.findOne({username:authorCred.username})
     if(dbauthor===null){
       res.send({message:"Invalid authorname"}) 

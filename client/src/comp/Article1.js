@@ -28,19 +28,19 @@ function Article1() {
 
   const deleteArticle = async() => {
     let art={...currentArticle};
-    console.log(art);
+    //console.log(art);
     delete art._id;
-    let res=await axiosWithToken.put(`http://localhost:4000/author-api/articles/${currentArticle.articleId}`,art)
+    let res=await axiosWithToken.put(`${window.location.origin}/author-api/articles/${currentArticle.articleId}`,art)
     if(res.data.message==='article deleted'){
       setCurrentArticle({...currentArticle,status:res.data.payload})
     }
-    console.log(art);
+    //console.log(art);
   };
 
   const restoreArticle =async () => {
     let art={...currentArticle};
     delete art._id;
-    let res=await axiosWithToken.put(`http://localhost:4000/author-api/articles/${currentArticle.articleId}`,art)
+    let res=await axiosWithToken.put(`${window.location.origin}/author-api/articles/${currentArticle.articleId}`,art)
     if(res.data.message==='article restored'){
       setCurrentArticle({...currentArticle,status:res.data.payload})
     }
@@ -49,8 +49,8 @@ function Article1() {
   //add comment top an article by user
   const writeComment = async (commentObj) => {
     commentObj.username = currentUser.username;
-    console.log(commentObj)
-    let res = await axiosWithToken.post(`http://localhost:4000/user-api/comment/${state.articleId}`,
+    //console.log(commentObj)
+    let res = await axiosWithToken.post(`${window.location.origin}/user-api/comment/${state.articleId}`,
       commentObj
     );
     if (res.data.message === "Comment posted") {
@@ -71,10 +71,10 @@ function Article1() {
     modifiedArticle.dateOfModification = new Date();
     //remove _id
     delete modifiedArticle._id;
-    console.log(modifiedArticle)
+    //console.log(modifiedArticle)
     //make http put req to save modified article in db
-    let res = await axiosWithToken.put("http://localhost:4000/author-api/articles",modifiedArticle);
-    console.log(res);
+    let res = await axiosWithToken.put(`${window.location.origin}/author-api/articles`,modifiedArticle);
+    //console.log(res);
     if (res.data.message === "Article Modified") {
       setArticleEditStatus(false);
       
