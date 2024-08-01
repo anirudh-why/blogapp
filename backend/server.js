@@ -1,5 +1,6 @@
 const exp=require('express')
 const app=exp()
+const cors = require('cors')
 require('dotenv').config() //process.env.PORT
 const mongoClient=require('mongodb').MongoClient;
 const path=require('path')
@@ -7,6 +8,12 @@ const path=require('path')
 //deploy build
 app.use(exp.static(path.join(__dirname,'../client/build')))
 app.use(exp.json())
+
+app.use(cors({
+    origin: ["https://blogwiz.onrender.com", "https://blogwiz.vercel.app"],
+    methods: ["POST", "GET", "PUT", "DELETE"],
+    credentials: true
+  }));
 
 mongoClient.connect(process.env.DB_URL)
 .then(client=>{
