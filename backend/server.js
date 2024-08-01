@@ -10,7 +10,7 @@ app.use(exp.static(path.join(__dirname,'../client/build')))
 app.use(exp.json())
 
 app.use(cors({
-    origin: ["https://blogwiz.onrender.com", "https://blogwiz.vercel.app"],
+    origin: ["https://blogapp-trekease-yv5o.onrender.com/", "https://blogwiz.vercel.app"],
     methods: ["POST", "GET", "PUT", "DELETE"],
     credentials: true
   }));
