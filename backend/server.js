@@ -39,7 +39,7 @@ app.use('/user-api', userApp);
 app.use('/author-api', authorApp);
 app.use('/admin-api', adminApp);
 
-app.use((req, res, next) => {
+app.get((req, res, next) => {
     res.sendFile(path.join(__dirname, '../client/build/index.html'));
 });
 
