@@ -8,12 +8,12 @@ const mongoClient = require('mongodb').MongoClient;
 
 // CORS Middleware
 app.use(cors({
-    origin: ["https://blogapp-trekease-yv5o.onrender.com", "https://blogwiz.vercel.app"],
+    origin: ["https://blogapp-trekease-yv5o.onrender.com", "https://blogapp.vercel.app"],
     methods: ["POST", "GET", "PUT", "DELETE"],
     credentials: true
 }));
 
-app.options('*', cors()); // Handle preflight requests
+//app.options('*', cors()); // Handle preflight requests
 
 app.use(express.static(path.join(__dirname, '../client/build')));
 app.use(express.json());
@@ -44,7 +44,7 @@ app.use((req, res, next) => {
 });
 
 app.use((err, req, res, next) => {
-    res.send({ message: "Error!!!", payload: err });
+    res.send({ message: "Error!!", payload: err });
 });
 
 const port = process.env.PORT || 5000;
