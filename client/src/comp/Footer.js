@@ -14,9 +14,9 @@ function Footer() {
           <div className="col-md-4">
             <h5>Follow Us</h5>
             <div className="social-icons">
-              <a href="https://facebook.com"><FaFacebook /></a>
-              <a href="https://twitter.com"><FaTwitter /></a>
-              <a href="https://instagram.com"><FaInstagram /></a>
+              <a href="https://facebook.com" style={{ paddingRight: '10px' }}><FaFacebook /></a>
+              <a href="https://twitter.com" style={{ paddingRight: '10px' }}><FaTwitter /></a>
+              <a href="https://instagram.com" style={{ paddingRight: '10px' }}><FaInstagram /></a>
             </div>
           </div>
           <div className="col-md-4">
