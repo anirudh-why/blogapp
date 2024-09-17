@@ -7,7 +7,7 @@ export const userAuthorLoginThunk=createAsyncThunk("user-author-login", async (u
   try {
     if (userCred.usertype === "user") {
       const res = await axios.post(
-        "http://localhost:4000/user-api/login",
+        `${window.location.origin}/user-api/login`,
         userCred
       );
       if (res.data.message === "login success") {
@@ -22,7 +22,7 @@ export const userAuthorLoginThunk=createAsyncThunk("user-author-login", async (u
     }
     if (userCred.usertype === "author") {
       const res = await axios.post(
-        "http://localhost:4000/author-api/login",
+        `${window.location.origin}/author-api/login`,
         userCred
       );
       if (res.data.message === "login success") {
