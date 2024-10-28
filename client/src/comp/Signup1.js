@@ -19,7 +19,7 @@ function Signup1() {
       async function handleFormSubmit(userobj) {
         //http post request
         let res=await axios.post(`${window.location.origin}/${userobj.usertype}-api/${userobj.usertype}`,userobj)
-        //console.log(res);
+        // console.log(res);
         if(res.data.message==='User created' || res.data.message==='Author created' )
         {
             //navigate to signin

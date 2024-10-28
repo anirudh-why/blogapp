@@ -7,7 +7,7 @@ function Navbar() {
 
     
     
-    let { isPending, currentUser, loginUserStatus, errorOccurred, errMsg } =
+    let { currentUser, loginUserStatus } =
     useSelector((state) => state.userAuthorLoginReducer);
 
     let dispatch=useDispatch()

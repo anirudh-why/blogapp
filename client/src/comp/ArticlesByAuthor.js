@@ -2,7 +2,7 @@ import React from 'react';
 import { axiosWithToken } from '../axiosWithToken'
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { useNavigate, redirect, Outlet } from "react-router-dom";
+import { useNavigate, Outlet } from "react-router-dom";
 import './Articles.css'
 
 function ArticlesByAuthor() {

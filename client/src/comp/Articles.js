@@ -1,7 +1,7 @@
 import React from 'react';
 import { axiosWithToken } from '../axiosWithToken'
 import { useEffect, useState } from "react";
-import { useNavigate ,Outlet} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import './Articles.css'
 
 function Articles() {

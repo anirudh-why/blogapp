@@ -16,7 +16,7 @@ function Signin() {
         handleSubmit,
         formState: { errors }
     } = useForm();
-    let { isPending, currentUser, loginUserStatus, errorOccurred, errMsg } =
+    let { currentUser, loginUserStatus } =
     useSelector((state) => state.userAuthorLoginReducer);
     let [users, setUsers] = useState([]);
     let dispatch=useDispatch();
