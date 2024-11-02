@@ -1,14 +1,37 @@
 import React from 'react';
-import './Home.css'; // Importing CSS file for styling
+import { Link } from 'react-router-dom';
+import { ArrowRight } from 'lucide-react';
 
 function Home() {
   return (
-    <div className="home-container">
-      <h1 className="blog-name">TrekEase</h1><div className='container bg-white'>
-      <p className="intro-text bg-white">Welcome to TrekEase, your ultimate destination for travel inspiration and adventure! Embark on a journey with us as we explore breathtaking landscapes, vibrant cultures, and hidden gems around the globe. Whether you're a seasoned globetrotter or a novice explorer, our curated content will ignite your wanderlust and provide invaluable tips for your next expedition. From awe-inspiring nature hikes to bustling urban escapades, TrekEase is your compass to discovering the world's wonders. Join our community of fellow travelers and share your experiences, tips, and memorable moments. Let's embark on unforgettable adventures together!</p></div>
+    <div className="vh-100 d-flex align-items-center" style={{ 
+      backgroundImage: 'url("https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80")', 
+      backgroundSize: 'cover', 
+      backgroundPosition: 'center',
+      position: 'relative'
+    }}>
+      {/* Overlay */}
+      <div className="position-absolute top-0 start-0 w-100 h-100" 
+        style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
+      </div>
+
+      {/* Content */}
+      <div className="container position-relative">
+        <div className="row align-items-center">
+          <div className="col-lg-6">
+            <h1 className="display-3 fw-bold text-white mb-4">
+              Welcome to
+              <span className="d-block" style={{ color: '#4BB4DE' }}>TrekEase</span>
+            </h1>
+            <p className="lead text-white mb-4 fw-normal" style={{ fontSize: '1.3rem' }}>
+              Discover a platform to share your stories and connect with a vibrant 
+              community of adventurers, travelers, and storytellers.
+            </p>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
 
 export default Home;
-
