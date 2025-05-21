@@ -12,7 +12,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-light bg-white shadow-sm py-2">
+    <nav className="navbar navbar-expand-lg navbar-light bg-light shadow-sm py-2">
       <div className="container">
         <Link className="navbar-brand fw-bold text-primary fs-4" to="/">
           TrekEase

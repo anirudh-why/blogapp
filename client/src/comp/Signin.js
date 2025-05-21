@@ -28,8 +28,8 @@ function Signin() {
 
     // Watch login status
     useEffect(() => {
-        console.log("loginUserStatus:", loginUserStatus);
-        console.log("currentUser:", currentUser);
+        // console.log("loginUserStatus:", loginUserStatus);
+        // console.log("currentUser:", currentUser);
     
         if (loginUserStatus === true && currentUser && currentUser.usertype) {
             toast.success('Login successful!', {

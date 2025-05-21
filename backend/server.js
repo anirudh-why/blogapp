@@ -27,7 +27,7 @@ mongoClient.connect(process.env.DB_URL)
         app.set('usersCollection', usersCollection);
         app.set('articlesCollection', articlesCollection);
         app.set('authorsCollection', authorsCollection);
-        console.log('DB connection success');
+        // console.log('DB connection success');
     })
     .catch(err => console.log('Error occurred in DB connection', err));
 
