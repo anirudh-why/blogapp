@@ -39,7 +39,8 @@ app.use('/user-api', userApp);
 app.use('/author-api', authorApp);
 app.use('/admin-api', adminApp);
 
-app.get((req, res, next) => {
+// Catch-all route handler for client-side routing
+app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, '../client/build/index.html'));
 });
 

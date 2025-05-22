@@ -1,5 +1,8 @@
 import './App.css';
 import { RouterProvider, Navigate, createBrowserRouter } from 'react-router-dom';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { verifyTokenThunk } from './redux/slices/userAuthorSlice';
 import RootLayout from './RootLayout';
 import Error from './comp/Error';
 import Signin from './comp/Signin';
@@ -13,6 +16,12 @@ import Article1 from './comp/Article1';
 import Signup1 from './comp/Signup1';
 
 function App() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    // Verify token on app load
+    dispatch(verifyTokenThunk());
+  }, [dispatch]);
 
   const router = createBrowserRouter([
     {
