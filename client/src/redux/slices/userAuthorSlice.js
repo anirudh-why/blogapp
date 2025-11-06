@@ -33,30 +33,30 @@ const loadState = () => {
 export const verifyTokenThunk = createAsyncThunk("verify-token", async (_, thunkApi) => {
   try {
     const token = localStorage.getItem('token');
-    const userState = localStorage.getItem('userState');
     console.log('Verifying token. Token:', token);
-    console.log('User state from localStorage:', userState);
     
-    if (!token || !userState) {
-      return thunkApi.rejectWithValue('No token or user state found');
+    if (!token) {
+      return thunkApi.rejectWithValue('No token found');
     }
 
-    // Parse the stored user state
-    const parsedState = JSON.parse(userState);
-    console.log('Parsed user state:', parsedState);
+    // Call backend to verify token is still valid
+    const res = await axiosWithToken.get(`${window.location.origin}/common-api/verify-token`);
+    console.log('Token verification response:', res.data);
     
-    if (!parsedState.currentUser || !parsedState.currentUser.username) {
-      return thunkApi.rejectWithValue('Invalid user state');
+    if (res.data.message === "Token valid") {
+      return {
+        message: "Token valid",
+        user: res.data.user
+      };
+    } else {
+      return thunkApi.rejectWithValue('Token validation failed');
     }
-
-    // Return the stored user data
-    return {
-      message: "profile found",
-      user: parsedState.currentUser
-    };
   } catch (err) {
     console.error('Error in verifyTokenThunk:', err);
-    return thunkApi.rejectWithValue(err.message);
+    // Clear invalid token from localStorage
+    localStorage.removeItem('token');
+    localStorage.removeItem('userState');
+    return thunkApi.rejectWithValue(err.response?.data?.message || err.message);
   }
 });
 

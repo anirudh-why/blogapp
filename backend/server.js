@@ -34,10 +34,12 @@ mongoClient.connect(process.env.DB_URL)
 const userApp = require('./APIs/user-api');
 const adminApp = require('./APIs/admin-api');
 const authorApp = require('./APIs/author-api');
+const commonApp = require('./APIs/common-api');
 
 app.use('/user-api', userApp);
 app.use('/author-api', authorApp);
 app.use('/admin-api', adminApp);
+app.use('/common-api', commonApp);
 
 // Catch-all route handler for client-side routing
 app.get('*', (req, res) => {
