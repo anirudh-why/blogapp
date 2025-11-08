@@ -1,9 +1,11 @@
 import { useForm } from "react-hook-form";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import toast, { Toaster } from 'react-hot-toast';
+import { useDispatch, useSelector } from 'react-redux';
+import { userAuthorLoginThunk, clearError } from '../redux/slices/userAuthorSlice';
 import './Signup.css';
 
 function Signup1() {
@@ -14,8 +16,14 @@ function Signup1() {
         watch
     } = useForm();
     
-    let [err, seterr] = useState('');
     let navigate = useNavigate();
+    const dispatch = useDispatch();
+    const { currentUser, loginUserStatus } = useSelector((state) => state.userAuthorLoginReducer);
+
+    // Clear errors when component mounts
+    useEffect(() => {
+        dispatch(clearError());
+    }, [dispatch]);
 
     // Watch password field for validation
     const password = watch('password');
@@ -74,19 +82,38 @@ function Signup1() {
             let res = await axios.post(`${window.location.origin}/${userobj.usertype}-api/${userobj.usertype}`, userobj);
             
             if (res.data.message === 'User created' || res.data.message === 'Author created') {
-                toast.success('Account created successfully!');
+                toast.success('Account created! Logging you in...', {
+                    duration: 2000
+                });
+                
+                // Automatically login after successful signup
                 setTimeout(() => {
-                    navigate('/signin');
-                }, 2000);
+                    dispatch(userAuthorLoginThunk({
+                        username: userobj.username,
+                        password: userobj.password,
+                        usertype: userobj.usertype
+                    }));
+                }, 1000);
             } else {
                 toast.error(res.data.message);
-                seterr(res.data.message);
             }
         } catch (error) {
-            toast.error('An error occurred during signup');
-            seterr('Signup failed. Please try again.');
+            toast.error('Signup failed. Please try again.');
         }
     }
+
+    // Watch for successful login after signup
+    useEffect(() => {
+        if (loginUserStatus === true && currentUser && currentUser.usertype) {
+            setTimeout(() => {
+                if (currentUser.usertype === "user") {
+                    navigate("/user-profile");
+                } else if (currentUser.usertype === "author") {
+                    navigate("/author-profile");
+                }
+            }, 500);
+        }
+    }, [loginUserStatus, currentUser, navigate]);
 
     // Show field-specific validation errors as toasts
     const showFieldErrors = () => {
@@ -96,11 +123,17 @@ function Signup1() {
             } else if (errors.username.type === "minLength") {
                 toast.error('Username must be at least 3 characters');
             } else if (errors.username.type === "maxLength") {
-                toast.error('Username cannot exceed 12 characters');
+                toast.error('Username must be 12 characters or less');
             }
         }
         if (errors.usertype?.type === "required") {
-            toast.error('Please select a role (User or Author)');
+            toast.error('Please select User or Author');
+        }
+        if (errors.email?.type === "required") {
+            toast.error('Email is required');
+        }
+        if (errors.password?.type === "required") {
+            toast.error('Password is required');
         }
     };
 

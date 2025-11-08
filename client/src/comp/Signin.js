@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from 'react-redux';
-import { userAuthorLoginThunk } from '../redux/slices/userAuthorSlice';
+import { userAuthorLoginThunk, clearError } from '../redux/slices/userAuthorSlice';
 import { useNavigate } from "react-router-dom";
 import React from 'react';
 import { Link } from 'react-router-dom';
@@ -15,70 +15,56 @@ function Signin() {
         formState: { errors }
     } = useForm();
 
-    const { currentUser, loginUserStatus } = useSelector((state) => state.userAuthorLoginReducer);
+    const { currentUser, loginUserStatus, errorOccurred, errMsg } = useSelector((state) => state.userAuthorLoginReducer);
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
+    // Clear errors when component mounts
+    useEffect(() => {
+        dispatch(clearError());
+    }, [dispatch]);
+
     // Handle form submission
     const handleFormSubmit = (userCred) => {
-        // Clear any existing error toasts
-        toast.dismiss();
+        dispatch(clearError()); // Clear any previous errors
         dispatch(userAuthorLoginThunk(userCred));
     };
 
     // Watch login status
     useEffect(() => {
-        // console.log("loginUserStatus:", loginUserStatus);
-        // console.log("currentUser:", currentUser);
-    
         if (loginUserStatus === true && currentUser && currentUser.usertype) {
-            toast.success('Login successful!', {
+            toast.success('Welcome back!', {
                 duration: 2000,
             });
-            if (currentUser.usertype === "user") {
-                navigate("/user-profile");
-            } else if (currentUser.usertype === "author") {
-                navigate("/author-profile");
-            }
-        } else if (loginUserStatus === false) {
-            toast.error('Invalid username or password', {
+            setTimeout(() => {
+                if (currentUser.usertype === "user") {
+                    navigate("/user-profile");
+                } else if (currentUser.usertype === "author") {
+                    navigate("/author-profile");
+                }
+            }, 500);
+        }
+    }, [loginUserStatus, currentUser, navigate]);
+
+    // Handle login errors
+    useEffect(() => {
+        if (errorOccurred && errMsg) {
+            toast.error(errMsg, {
                 duration: 3000
             });
         }
-    }, [loginUserStatus, currentUser, navigate]);
+    }, [errorOccurred, errMsg]);
     
 
     // Handle form validation errors
     useEffect(() => {
-        // Clear existing error toasts before showing new ones
-        toast.dismiss();
-        
         if (Object.keys(errors).length > 0) {
             if (errors.usertype) {
-                toast.error('Please select your role (User or Author)');
-            }
-            if (errors.username) {
-                switch (errors.username.type) {
-                    case "required":
-                        toast.error('Username is required');
-                        break;
-                    case "minLength":
-                        toast.error('Username must be at least 3 characters');
-                        break;
-                    case "maxLength":
-                        toast.error('Username cannot exceed 12 characters');
-                        break;
-                }
-            }
-            if (errors.password) {
-                switch (errors.password.type) {
-                    case "required":
-                        toast.error('Password is required');
-                        break;
-                    case "maxLength":
-                        toast.error('Password cannot exceed 20 characters');
-                        break;
-                }
+                toast.error('Please select User or Author');
+            } else if (errors.username) {
+                toast.error('Please enter a valid username');
+            } else if (errors.password) {
+                toast.error('Please enter your password');
             }
         }
     }, [errors]);

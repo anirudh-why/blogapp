@@ -6,7 +6,6 @@ import { axiosWithToken } from "../../axiosWithToken";
 const loadState = () => {
   try {
     const serializedState = localStorage.getItem('userState');
-    console.log('Loading state from localStorage:', serializedState);
     if (serializedState === null) {
       return {
         isPending: false,
@@ -18,7 +17,6 @@ const loadState = () => {
     }
     return JSON.parse(serializedState);
   } catch (err) {
-    console.error('Error loading state:', err);
     return {
       isPending: false,
       loginUserStatus: false,
@@ -33,7 +31,6 @@ const loadState = () => {
 export const verifyTokenThunk = createAsyncThunk("verify-token", async (_, thunkApi) => {
   try {
     const token = localStorage.getItem('token');
-    console.log('Verifying token. Token:', token);
     
     if (!token) {
       return thunkApi.rejectWithValue('No token found');
@@ -41,7 +38,6 @@ export const verifyTokenThunk = createAsyncThunk("verify-token", async (_, thunk
 
     // Call backend to verify token is still valid
     const res = await axiosWithToken.get(`${window.location.origin}/common-api/verify-token`);
-    console.log('Token verification response:', res.data);
     
     if (res.data.message === "Token valid") {
       return {
@@ -52,7 +48,6 @@ export const verifyTokenThunk = createAsyncThunk("verify-token", async (_, thunk
       return thunkApi.rejectWithValue('Token validation failed');
     }
   } catch (err) {
-    console.error('Error in verifyTokenThunk:', err);
     // Clear invalid token from localStorage
     localStorage.removeItem('token');
     localStorage.removeItem('userState');
@@ -63,14 +58,11 @@ export const verifyTokenThunk = createAsyncThunk("verify-token", async (_, thunk
 //make http req using redux-thunk middleware
 export const userAuthorLoginThunk = createAsyncThunk("user-author-login", async (userCred, thunkApi) => {
   try {
-    console.log('Login attempt with credentials:', userCred);
-    
     if (userCred.usertype === "user") {
       const res = await axios.post(
         `${window.location.origin}/user-api/login`,
         userCred
       );
-      console.log('Login response:', res.data);
       
       if (res.data.message === "login success") {
         //store token in local/session storage
@@ -91,7 +83,6 @@ export const userAuthorLoginThunk = createAsyncThunk("user-author-login", async 
         
         // Store user state in localStorage
         localStorage.setItem('userState', JSON.stringify(userState));
-        console.log('Stored user state:', userState);
         
         return {
           message: "login success",
@@ -107,7 +98,6 @@ export const userAuthorLoginThunk = createAsyncThunk("user-author-login", async 
         `${window.location.origin}/author-api/login`,
         userCred
       );
-      console.log('Login response:', res.data);
       
       if (res.data.message === "login success") {
         //store token in local/session storage
@@ -128,7 +118,6 @@ export const userAuthorLoginThunk = createAsyncThunk("user-author-login", async 
         
         // Store user state in localStorage
         localStorage.setItem('userState', JSON.stringify(userState));
-        console.log('Stored user state:', userState);
         
         return {
           message: "login success",
@@ -140,8 +129,7 @@ export const userAuthorLoginThunk = createAsyncThunk("user-author-login", async 
       }
     }
   } catch (err) {
-    console.error('Login error:', err);
-    return thunkApi.rejectWithValue(err);
+    return thunkApi.rejectWithValue("An error occurred. Please try again.");
   }
 });
 
@@ -150,7 +138,6 @@ export const userAuthorSlice = createSlice({
   initialState: loadState(),
   reducers: {
     resetState: (state, action) => {
-      console.log('Resetting state');
       state.isPending = false;
       state.currentUser = {};
       state.loginUserStatus = false;
@@ -159,15 +146,20 @@ export const userAuthorSlice = createSlice({
       // Clear localStorage when logging out
       localStorage.removeItem('userState');
       localStorage.removeItem('token');
+    },
+    clearError: (state) => {
+      state.errorOccurred = false;
+      state.errMsg = '';
     }
   },
   extraReducers: builder => builder
     // Handle token verification
     .addCase(verifyTokenThunk.pending, (state) => {
       state.isPending = true;
+      state.errorOccurred = false;
+      state.errMsg = '';
     })
     .addCase(verifyTokenThunk.fulfilled, (state, action) => {
-      console.log('Token verification successful:', action.payload);
       state.isPending = false;
       state.currentUser = action.payload.user;
       state.loginUserStatus = true;
@@ -175,12 +167,11 @@ export const userAuthorSlice = createSlice({
       state.errMsg = '';
     })
     .addCase(verifyTokenThunk.rejected, (state, action) => {
-      console.log('Token verification failed:', action.payload);
       state.isPending = false;
       state.currentUser = {};
       state.loginUserStatus = false;
-      state.errorOccurred = true;
-      state.errMsg = action.payload;
+      state.errorOccurred = false; // Don't show error for token verification failure
+      state.errMsg = '';
       // Clear localStorage on token verification failure
       localStorage.removeItem('userState');
       localStorage.removeItem('token');
@@ -188,9 +179,10 @@ export const userAuthorSlice = createSlice({
     // Handle login
     .addCase(userAuthorLoginThunk.pending, (state) => {
       state.isPending = true;
+      state.errorOccurred = false;
+      state.errMsg = '';
     })
     .addCase(userAuthorLoginThunk.fulfilled, (state, action) => {
-      console.log('Login successful, updating state with:', action.payload);
       state.isPending = false;
       state.currentUser = action.payload.user;
       state.loginUserStatus = true;
@@ -198,7 +190,6 @@ export const userAuthorSlice = createSlice({
       state.errorOccurred = false;
     })
     .addCase(userAuthorLoginThunk.rejected, (state, action) => {
-      console.log('Login failed:', action.payload);
       state.isPending = false;
       state.currentUser = {};
       state.loginUserStatus = false;
@@ -210,6 +201,6 @@ export const userAuthorSlice = createSlice({
 });
 
 //export action creator functions
-export const { resetState } = userAuthorSlice.actions;
+export const { resetState, clearError } = userAuthorSlice.actions;
 //export root reducer of this slice
 export default userAuthorSlice.reducer;
