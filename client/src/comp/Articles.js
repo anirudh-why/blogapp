@@ -14,17 +14,14 @@ function Articles() {
         try {
             setLoading(true);
             setError(null);
-            let res = await axiosWithToken.get(`${window.location.origin}/user-api/articles`);
-            console.log('Articles response:', res.data);
+            let res = await axiosWithToken.get(`/user-api/articles`);
             
             if (res.data && Array.isArray(res.data.payload)) {
                 setArticlesList(res.data.payload);
             } else {
-                console.warn('Unexpected response format:', res.data);
                 setArticlesList([]);
             }
         } catch (err) {
-            console.error('Error fetching articles:', err);
             setError(err.response?.data?.message || err.message || 'Failed to fetch articles');
             setArticlesList([]);
         } finally {

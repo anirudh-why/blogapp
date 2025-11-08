@@ -23,7 +23,7 @@ function Article1() {
     const art = { ...currentArticle };
     delete art._id;
     const res = await axiosWithToken.put(
-      `${window.location.origin}/author-api/articles/${currentArticle.articleId}`,
+      `/author-api/articles/${currentArticle.articleId}`,
       art
     );
     if (res.data.message === 'article deleted') {
@@ -35,7 +35,7 @@ function Article1() {
     const art = { ...currentArticle };
     delete art._id;
     const res = await axiosWithToken.put(
-      `${window.location.origin}/author-api/articles/${currentArticle.articleId}`,
+      `/author-api/articles/${currentArticle.articleId}`,
       art
     );
     if (res.data.message === 'article restored') {
@@ -46,7 +46,7 @@ function Article1() {
   const writeComment = async (commentObj) => {
     commentObj.username = currentUser.username;
     const res = await axiosWithToken.post(
-      `${window.location.origin}/user-api/comment/${state.articleId}`,
+      `/user-api/comment/${state.articleId}`,
       commentObj
     );
     if (res.data.message === 'Comment posted') {
@@ -62,7 +62,7 @@ function Article1() {
     const modifiedArticle = { ...state, ...editedArticle, dateOfModification: new Date() };
     delete modifiedArticle._id;
     const res = await axiosWithToken.put(
-      `${window.location.origin}/author-api/articles`,
+      `/author-api/articles`,
       modifiedArticle
     );
     if (res.data.message === 'Article Modified') {

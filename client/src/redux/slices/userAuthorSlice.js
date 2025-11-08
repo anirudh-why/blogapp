@@ -37,7 +37,7 @@ export const verifyTokenThunk = createAsyncThunk("verify-token", async (_, thunk
     }
 
     // Call backend to verify token is still valid
-    const res = await axiosWithToken.get(`${window.location.origin}/common-api/verify-token`);
+  const res = await axiosWithToken.get(`/common-api/verify-token`);
     
     if (res.data.message === "Token valid") {
       return {
@@ -60,7 +60,7 @@ export const userAuthorLoginThunk = createAsyncThunk("user-author-login", async 
   try {
     if (userCred.usertype === "user") {
       const res = await axios.post(
-        `${window.location.origin}/user-api/login`,
+        `/user-api/login`,
         userCred
       );
       
@@ -95,7 +95,7 @@ export const userAuthorLoginThunk = createAsyncThunk("user-author-login", async 
     }
     if (userCred.usertype === "author") {
       const res = await axios.post(
-        `${window.location.origin}/author-api/login`,
+        `/author-api/login`,
         userCred
       );
       

@@ -79,7 +79,7 @@ function Signup1() {
         }
 
         try {
-            let res = await axios.post(`${window.location.origin}/${userobj.usertype}-api/${userobj.usertype}`, userobj);
+            let res = await axios.post(`/${userobj.usertype}-api/${userobj.usertype}`, userobj);
             
             if (res.data.message === 'User created' || res.data.message === 'Author created') {
                 toast.success('Account created! Logging you in...', {

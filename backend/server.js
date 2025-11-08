@@ -8,7 +8,13 @@ const mongoClient = require('mongodb').MongoClient;
 
 // CORS Middleware
 app.use(cors({
-    origin: ["https://blogapp-trekease-yv5o.onrender.com", "https://blogapp.vercel.app"],
+    origin: [
+        "https://blogapp-trekease-yv5o.onrender.com", 
+        "https://blogapp.vercel.app",
+        "http://localhost:3000",
+        "http://localhost:4000",
+        "http://localhost:5000"
+    ],
     methods: ["POST", "GET", "PUT", "DELETE"],
     credentials: true
 }));
@@ -50,5 +56,5 @@ app.use((err, req, res, next) => {
     res.send({ message: "Error!!", payload: err });
 });
 
-const port = process.env.PORT || 5000;
+const port = process.env.PORT ? Number(process.env.PORT) : 5000;
 app.listen(port, () => console.log(`Webserver working on port ${port}`));
